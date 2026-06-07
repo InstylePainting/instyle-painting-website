@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Instyle Painting | Premium Painting Services Perth WA</title>
-<meta name="description" content="Instyle Painting — Perth's premium residential, commercial and industrial painting specialists. LN 101102. Master Painters members. Download our Capability Statement.">
+<meta name="description" content="Instyle Painting - Perth's premium residential, commercial and industrial painting specialists. LN 101102. Master Painters members. Download our Capability Statement.">
 <meta name="keywords" content="Instyle Painting, Instyle Painting capability statement, painting contractor Perth, commercial painting WA, residential painting Perth, industrial coatings WA">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HP5K2L0HS0"></script>
@@ -16,7 +16,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -31,9 +31,10 @@
     --orange: #D4652A;
     --orange-soft: #E07840;
     --black: #0E0E0E;
+    --nardo-bg: #212327;
     --white: #F8F6F1;
-    --serif: 'Cormorant Garamond', serif;
-    --sans: 'Montserrat', sans-serif;
+    --serif: 'Fraunces', serif;
+    --sans: 'Hanken Grotesk', sans-serif;
   }
 
   html { scroll-behavior: smooth; }
@@ -53,7 +54,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.35;
+    opacity: 0.10;
   }
 
   /* ── SCROLLBAR ── */
@@ -92,12 +93,12 @@
   .nav-logo {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 9px;
     text-decoration: none;
   }
   .nav-logo-img {
-    width: 120px;
-    height: 120px;
+    height: 62px;
+    width: auto;
     object-fit: contain;
     flex-shrink: 0;
   }
@@ -422,6 +423,7 @@
      ABOUT / INTRO
   ══════════════════════════════ */
   .section { padding: 120px 60px; }
+  #about { background: var(--nardo-bg); }
   .section-inner { max-width: 1300px; margin: 0 auto; }
 
   .section-tag {
@@ -558,18 +560,18 @@
   }
   .services-header h2 {
     font-family: var(--serif);
-    font-size: clamp(38px, 4vw, 60px);
+    font-size: clamp(28px, 3.1vw, 42px);
     font-weight: 300;
     color: var(--white);
-    line-height: 1.1;
-    max-width: 500px;
+    line-height: 1.12;
+    max-width: 620px;
   }
   .services-header h2 em { font-style: italic; color: var(--gold); }
   .services-header p {
-    font-size: 12px;
-    line-height: 1.9;
-    color: var(--nardo-mid);
-    max-width: 340px;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--nardo-light);
+    max-width: 420px;
     text-align: right;
   }
 
@@ -952,6 +954,59 @@
     text-transform: uppercase;
   }
 
+  /* Reviews carousel */
+  .testimonials-carousel {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .tcar-viewport { overflow: hidden; flex: 1; }
+  .tcar-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  }
+  .tcar-track .testimonial-card {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+  .tcar-arrow {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.03);
+    color: var(--white);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tcar-arrow:hover { border-color: var(--gold); color: var(--gold); }
+  .tcar-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 34px;
+  }
+  .tcar-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.22);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .tcar-dot.active { background: var(--gold); width: 22px; border-radius: 4px; }
+
   /* ══════════════════════════════
      CTA BAND
   ══════════════════════════════ */
@@ -1304,16 +1359,16 @@
      MOBILE FIXES
   ══════════════════════════════ */
   @media (max-width: 768px) {
-    /* Nav — shrink logo on mobile */
+    /* Nav - shrink logo on mobile */
     nav { padding: 16px 20px; }
     nav.scrolled { padding: 12px 20px; }
-    .nav-logo-img { width: 52px; height: 52px; }
+    .nav-logo-img { height: 42px; width: auto; }
     .nav-logo-main { font-size: 16px; }
     .nav-logo-sub { font-size: 8px; letter-spacing: 0.2em; }
     .nav-cta { padding: 10px 16px; font-size: 9px; }
     .nav-center { display: none; }
 
-    /* Hero — fix subtitle wrapping */
+    /* Hero - fix subtitle wrapping */
     .hero-sub { white-space: normal; font-size: 10px; max-width: 90%; }
     .hero-phone { display: none; }
     .hero h1 .hero-small { font-size: clamp(26px, 7vw, 40px); }
@@ -1335,10 +1390,10 @@
     /* Stats */
     .stats-strip { padding: 0 20px; }
 
-    /* About — stack swatches */
+    /* About - stack swatches */
     .paint-swatches { height: 300px; }
 
-    /* Meet the owner — stack on mobile */
+    /* Meet the owner - stack on mobile */
     #meet-alex > div {
       grid-template-columns: 1fr !important;
       gap: 40px !important;
@@ -1348,7 +1403,7 @@
       object-position: center 15% !important;
     }
 
-    /* Credentials strip — stack vertically on mobile */
+    /* Credentials strip - stack vertically on mobile */
     .certs-strip { padding: 30px 20px; }
     .certs-inner {
       flex-direction: column !important;
@@ -1389,6 +1444,143 @@
     /* Contact */
     .contact-inner { gap: 40px; }
   }
+
+  /* ══════════════════════════════
+     GALLERY OVERLAY
+  ══════════════════════════════ */
+  .gallery-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(8,8,8,0.985);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    overflow-y: auto;
+  }
+  .gallery-overlay.open { opacity: 1; visibility: visible; }
+  .gallery-bar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 40px;
+    background: rgba(8,8,8,0.92);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    z-index: 2;
+  }
+  .gallery-bar .gallery-brand {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--white);
+  }
+  .gallery-close {
+    background: none;
+    border: 1px solid rgba(248,246,241,0.3);
+    color: var(--white);
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .gallery-close:hover { border-color: var(--gold); color: var(--gold); }
+  .gallery-scroll {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 56px 40px 90px;
+  }
+  .gallery-eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .gallery-title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .gallery-title em { font-style: italic; color: var(--gold); }
+  .gallery-intro {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--nardo-light);
+    max-width: 520px;
+    margin-bottom: 44px;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    background: rgba(255,255,255,0.03);
+    cursor: zoom-in;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-item figcaption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 16px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  }
+  @media (max-width: 900px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-bar { padding: 20px 24px; }
+    .gallery-scroll { padding: 40px 24px 70px; }
+  }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Lightbox (click a gallery photo to enlarge) */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0,0,0,0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 94%;
+    max-height: 94%;
+    object-fit: contain;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.6);
+  }
 </style>
 
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
@@ -1401,7 +1593,7 @@
 <!-- NAV -->
 <nav id="main-nav">
   <a href="#" class="nav-logo">
-    <img src="logo.png" alt="Instyle Painting Logo" class="nav-logo-img">
+    <img src="logo-trimmed.png" alt="Instyle Painting Logo" class="nav-logo-img">
     <div class="nav-logo-text">
       <span class="nav-logo-main">Instyle Painting</span>
       <span class="nav-logo-sub">Premium Painting Services</span>
@@ -1410,12 +1602,46 @@
   <ul class="nav-center nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#" onclick="openGallery(event)">Gallery</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#testimonials">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Get a Quote</a>
 </nav>
+
+<!-- GALLERY OVERLAY (opens from the Gallery nav link) -->
+<div class="gallery-overlay" id="gallery-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Project gallery">
+  <div class="gallery-bar">
+    <span class="gallery-brand">Instyle Painting</span>
+    <button class="gallery-close" onclick="closeGallery()" aria-label="Close gallery">&times;</button>
+  </div>
+  <div class="gallery-scroll">
+    <div class="gallery-eyebrow">Our Work</div>
+    <h2 class="gallery-title">Work we're <em>proud of.</em></h2>
+    <p class="gallery-intro">A snapshot of recent residential, commercial and industrial work across Perth. Tap any image to see it larger.</p>
+    <div class="gallery-grid">
+      <figure class="gallery-item" onclick="lightbox('gallery-1.jpg')"><img src="gallery-1.jpg" alt="Dentistry fit-out interior" loading="lazy"><figcaption>Dentistry Fit Out</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-2.jpg')"><img src="gallery-2.jpg" alt="Nido Early School daycare exterior" loading="lazy"><figcaption>Nido Early School · Daycare</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-11.jpg')"><img src="gallery-11.jpg" alt="Masking and floor protection before painting" loading="lazy"><figcaption>Prep &amp; Masking</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-4.jpg')"><img src="gallery-4.jpg" alt="Waiting room with specialty finishes" loading="lazy"><figcaption>Waiting Room · Specialty Finishes</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-5.jpg')"><img src="gallery-5.jpg" alt="Commercial repaint at height" loading="lazy"><figcaption>Working at Height</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-6.jpg')"><img src="gallery-6.jpg" alt="Architectural timber feature" loading="lazy"><figcaption>Architectural Detail</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-3.jpg')"><img src="gallery-3.jpg" alt="Commercial interior, bold feature wall" loading="lazy"><figcaption>Commercial Interior</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-12.jpg')"><img src="gallery-12.jpg" alt="Heritage commercial building repaint" loading="lazy"><figcaption>Heritage Commercial</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-14.jpg')"><img src="gallery-14.jpg" alt="Surface preparation and sanding" loading="lazy"><figcaption>Surface Prep</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-7.jpg')"><img src="gallery-7.jpg" alt="Reception lounge with specialty finishes" loading="lazy"><figcaption>Reception Lounge</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-13.jpg')"><img src="gallery-13.jpg" alt="Industrial warehouse coating" loading="lazy"><figcaption>Industrial Coatings</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-15.jpg')"><img src="gallery-15.jpg" alt="Heritage timber staircase restoration" loading="lazy"><figcaption>Heritage Restoration</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-9.jpg')"><img src="gallery-9.jpg" alt="Painter applying a feature wall" loading="lazy"><figcaption>On the Tools</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-8.jpg')"><img src="gallery-8.jpg" alt="St Jerome's educational project fit-out" loading="lazy"><figcaption>Educational Project</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-10.jpg')"><img src="gallery-10.jpg" alt="Instyle Painting branded fleet" loading="lazy"><figcaption>Our Fleet</figcaption></figure>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox (enlarge a gallery photo) -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Enlarged project photo"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1426,8 +1652,8 @@
   <div class="hero-stroke"></div>
 
   <div class="hero-content">
-    <h1><span class="hero-small">Where</span><em>Craftsmanship</em><span class="hero-big">Meets Precision</span></h1>
-    <p class="hero-sub">Residential · Commercial · Industrial<br>Delivering flawless finishes that define your space</p>
+    <h1><span class="hero-small">The finish your property</span><em>deserves.</em></h1>
+    <p class="hero-sub">Residential · Commercial · Industrial<br>Trusted across Perth for over a decade</p>
     <div class="hero-btns">
       <a href="#contact" class="btn-primary"><span>Request a Quote</span></a>
       <a href="#services" class="btn-outline">Our Services</a>
@@ -1474,10 +1700,10 @@
           <div class="section-tag-line"></div>
           <span>Our Story</span>
         </div>
-        <h2>We Don't Just Paint.<br>We <em>Transform</em> Spaces.</h2>
-        <p>Instyle Painting was founded on a single principle: that every surface deserves the same attention to detail, precision, and craftsmanship that a master tradesperson brings to their finest work.</p>
-        <p>Based in Perth, Western Australia, we serve residential, commercial, and industrial clients who refuse to settle for ordinary. Our team of licensed professionals brings industry-leading expertise, premium materials, and an unwavering commitment to quality on every project — regardless of scale.</p>
-        <p>From heritage restorations to modern commercial fitouts, we approach every job as an opportunity to demonstrate what truly premium painting looks like.</p>
+        <h2>Painting that holds up to Perth weather -<br>and <em>close inspection.</em></h2>
+        <p>We've been painting Perth homes and businesses for over a decade - long enough to know that a great paint job is mostly about what happens <em>before</em> the first coat goes on.</p>
+        <p>From Fremantle weatherboards to commercial fitouts in the city, we handle residential, commercial and industrial work right across WA. Every job gets the same prep, the same quality paint, and a crew that turns up when we say we will.</p>
+        <p>More than 3,000 jobs later, most of our work still comes from people who've had us back - or who were told to call us by someone we've already painted for.</p>
         <div class="about-signature">Instyle Painting</div>
       </div>
       <div class="about-right fade-up fade-up-delay-2">
@@ -1540,23 +1766,23 @@
         <div class="section-tag-line"></div>
         <span>What We Do</span>
       </div>
-      <h2>A Complete Range<br>of <em>Premium</em> Services</h2>
+      <h2>From a single feature wall<br>to a full <em>industrial&nbsp;repaint.</em></h2>
     </div>
-    <p>From a single room refresh to large-scale industrial coating, every Instyle job is executed with the same uncompromising attention to detail.</p>
+    <p>Whatever the size of the job, the process is the same:<br>proper prep, quality paint, and a finish we'll put our name on.</p>
   </div>
   <div class="services-grid">
     <div class="service-card fade-up">
       <div class="service-card-img" style="background-image: url('img-residential.jpg')"></div>
       <div class="service-num">01</div>
       <h3>Residential Painting</h3>
-      <p>Interior and exterior painting for homes of all sizes. We protect your furnishings, prepare surfaces meticulously, and deliver finishes that last — and look exceptional.</p>
+      <p>Interior and exterior painting for homes of all sizes. We mask up, move what needs moving, prep properly, and leave your place cleaner than we found it.</p>
       <div class="service-arrow">Enquire Now</div>
     </div>
     <div class="service-card fade-up fade-up-delay-1">
       <div class="service-card-img" style="background-image: url('img-commercial.png')"></div>
       <div class="service-num">02</div>
       <h3>Commercial Painting</h3>
-      <p>Offices, retail spaces, strata complexes, and multi-storey buildings. We work around your schedule to minimise disruption while maximising quality.</p>
+      <p>Offices, retail spaces, strata complexes and multi-storey buildings. We'll work nights and weekends where we have to, so your business keeps running while we paint.</p>
       <div class="service-arrow">Enquire Now</div>
     </div>
     <div class="service-card fade-up fade-up-delay-2">
@@ -1570,21 +1796,21 @@
       <div class="service-card-img" style="background-image: url('img-prep.jpg')"></div>
       <div class="service-num">04</div>
       <h3>Surface Preparation</h3>
-      <p>The foundation of any great finish. Pressure washing, sanding, filling, priming — we treat every surface as a canvas that deserves proper preparation.</p>
+      <p>The part that decides whether a paint job lasts five years or fifteen. Pressure washing, sanding, filling, priming - done properly before a drop of topcoat goes on.</p>
       <div class="service-arrow">Enquire Now</div>
     </div>
     <div class="service-card fade-up fade-up-delay-1">
       <div class="service-card-img" style="background-image: url('img-texture.jpg')"></div>
       <div class="service-num">05</div>
       <h3>Texture & Specialty Finishes</h3>
-      <p>Venetian plaster, limewash, marmorino, microcement, feature walls, and textured coatings — we specialise in high-end decorative finishes that transform surfaces into statement pieces. Each finish is applied by hand with meticulous technique.</p>
+      <p>Venetian plaster, limewash, marmorino, microcement and feature walls - high-end decorative finishes applied by hand, one coat at a time. The kind of work that's hard to find a painter for in Perth.</p>
       <div class="service-arrow">Enquire Now</div>
     </div>
     <div class="service-card fade-up fade-up-delay-2">
       <div class="service-card-img" style="background-image: url('img-restoration.jpg')"></div>
       <div class="service-num">06</div>
       <h3>Heritage & Restoration</h3>
-      <p>Careful, respectful restoration of heritage buildings. We understand the nuances of period properties and use appropriate materials and techniques.</p>
+      <p>Careful restoration of heritage and period homes, using materials and methods that suit the era - not whatever happens to be quickest.</p>
       <div class="service-arrow">Enquire Now</div>
     </div>
   </div>
@@ -1598,8 +1824,8 @@
         <div class="section-tag-line"></div>
         <span>Why Instyle</span>
       </div>
-      <h2>The <em>Instyle</em><br>Difference</h2>
-      <p>We don't compete on price. We compete on quality. Here's why that matters to you.</p>
+      <h2>Why Perth keeps<br><em>calling us back.</em></h2>
+      <p>We're rarely the cheapest quote you'll get - and the clients who keep calling us back know exactly why.</p>
       <a href="#contact" class="values-cta">Start Your Project</a>
     </div>
     <div class="value-items fade-up fade-up-delay-2">
@@ -1607,35 +1833,35 @@
         <span class="value-num">01</span>
         <div class="value-content">
           <h4>Premium Materials Only</h4>
-          <p>We specify and use only top-tier paint and coating systems from leading manufacturers. No cutting corners, no cheap substitutes.</p>
+          <p>Dulux and Wattyl trade systems on every job - the same paints we'd use on our own homes. No bargain substitutes to pad the margin.</p>
         </div>
       </div>
       <div class="value-item">
         <span class="value-num">02</span>
         <div class="value-content">
           <h4>Meticulous Preparation</h4>
-          <p>90% of a great finish is in the preparation. We take the time to do it right — every time — so the result speaks for itself.</p>
+          <p>Most of a great finish is in the prep - the sanding, filling and priming nobody sees. We don't rush it, because that's the first thing to fail when you do.</p>
         </div>
       </div>
       <div class="value-item">
         <span class="value-num">03</span>
         <div class="value-content">
           <h4>On-Time, Every Time</h4>
-          <p>We respect your time and your deadlines. Our project management is precise, and we communicate proactively throughout every job.</p>
+          <p>We turn up when we say we will, and tell you straight away if anything changes. No vanishing halfway through the job.</p>
         </div>
       </div>
       <div class="value-item">
         <span class="value-num">04</span>
         <div class="value-content">
           <h4>Fully Licensed & Insured</h4>
-          <p>Complete peace of mind. WA painting license, public liability insurance, and full OHS compliance on every worksite.</p>
+          <p>WA painting licence LN 101102, public liability cover, and full safety compliance on every site. Nothing about us is cash-in-hand.</p>
         </div>
       </div>
       <div class="value-item">
         <span class="value-num">05</span>
         <div class="value-content">
           <h4>Clean, Professional Crew</h4>
-          <p>Our team arrives in uniform, works clean, and leaves your property spotless. We represent your space — and ours — with pride.</p>
+          <p>Our team arrives in uniform, works clean, and leaves your property spotless. We represent your space - and ours - with pride.</p>
         </div>
       </div>
     </div>
@@ -1643,7 +1869,7 @@
 </section>
 
 <!-- MEET THE OWNER -->
-<section style="padding: 120px 60px; background: #0e0e0e; position: relative; overflow: hidden;" id="meet-alex">
+<section style="padding: 120px 60px; background: var(--nardo-bg); position: relative; overflow: hidden;" id="meet-alex">
   <div style="max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;">
 
     <!-- Photo -->
@@ -1654,7 +1880,7 @@
         <!-- Gold accent corner -->
         <div style="position: absolute; bottom: -12px; right: -12px; width: 80px; height: 80px; border-bottom: 3px solid var(--gold); border-right: 3px solid var(--gold); z-index: 3;"></div>
         <div style="position: absolute; top: -12px; left: -12px; width: 80px; height: 80px; border-top: 3px solid var(--orange); border-left: 3px solid var(--orange); z-index: 3;"></div>
-        <img src="img-alex.jpg" alt="Alex — Owner, Instyle Painting"
+        <img src="img-alex.jpg" alt="Alex - Owner, Instyle Painting"
           style="width: 100%; height: 600px; object-fit: cover; object-position: center 20%; display: block; position: relative; z-index: 1; filter: grayscale(15%);">
       </div>
     </div>
@@ -1668,9 +1894,9 @@
       <h2 style="font-family: var(--serif); font-size: clamp(38px, 4vw, 60px); font-weight: 300; color: var(--white); line-height: 1.05; margin-bottom: 8px;">Alex <em style="font-style: italic; color: var(--white);">Pop</em></h2>
       <p style="font-size: 10px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--nardo-mid); margin-bottom: 30px;">Founder & Director · Instyle Painting Perth</p>
 
-      <p style="font-size: 13px; line-height: 2; color: var(--nardo-light); margin-bottom: 18px;">With over 12 years in the industry, Alex built Instyle Painting on a foundation of honesty, hard work, and an obsession with quality. What started as a one-man operation has grown into one of Perth's most trusted painting businesses — with a fleet of branded vans and thousands of satisfied clients across residential, commercial, and industrial sectors.</p>
+      <p style="font-size: 13px; line-height: 2; color: var(--nardo-light); margin-bottom: 18px;">Alex started Instyle Painting as a one-man operation more than twelve years ago. These days it's a full crew and a fleet of branded vans - but he still quotes most jobs himself and is on the tools more often than not.</p>
 
-      <p style="font-size: 13px; line-height: 2; color: var(--nardo-light); margin-bottom: 36px;">Alex is hands-on in every project, personally ensuring that every job meets the Instyle standard. When you hire Instyle Painting, you're not hiring a faceless contractor — you're hiring someone who takes pride in every surface they touch.</p>
+      <p style="font-size: 13px; line-height: 2; color: var(--nardo-light); margin-bottom: 36px;">When you hire Instyle, you're dealing with the person whose name is on the vans - not a call centre. Alex would rather lose a job than hand back work he isn't proud of.</p>
 
       <div style="display: flex; gap: 24px; flex-wrap: wrap;">
         <div style="display: flex; align-items: center; gap: 10px;">
@@ -1695,29 +1921,29 @@
       <span>How It Works</span>
       <div class="section-tag-line"></div>
     </div>
-    <h2>Our <em>Proven</em> Process</h2>
-    <p>From first contact to final inspection, we follow a structured process that guarantees exceptional results and a stress-free experience.</p>
+    <h2>How your job runs,<br>from quote to <em>final coat.</em></h2>
+    <p>Four steps, no surprises - here's exactly how a job goes from your first call to us packing up and leaving the place spotless.</p>
   </div>
   <div class="process-steps">
     <div class="process-step fade-up">
       <div class="process-circle">1</div>
       <h4>Consultation</h4>
-      <p>We visit your site or analyse your photos, understand your vision, assess the scope, and discuss timelines and specifications in detail.</p>
+      <p>We come out to your place (or work from your photos), take a proper look at the job, and talk through what you want and when you need it done.</p>
     </div>
     <div class="process-step fade-up fade-up-delay-1">
       <div class="process-circle">2</div>
       <h4>Detailed Quote</h4>
-      <p>A comprehensive, transparent quote — no hidden costs, no surprises. You know exactly what you're getting and what it costs.</p>
+      <p>A clear, itemised quote - what we'll do and what it costs. No vague "from" prices, no surprise extras turning up on the final invoice.</p>
     </div>
     <div class="process-step fade-up fade-up-delay-2">
       <div class="process-circle">3</div>
       <h4>Preparation & Painting</h4>
-      <p>Our licensed crew prepares every surface properly, then applies premium coatings with precision and care.</p>
+      <p>The crew preps every surface properly, then puts the coats on - drop sheets down, edges cut in by hand, your gear kept clean throughout.</p>
     </div>
     <div class="process-step fade-up fade-up-delay-3">
       <div class="process-circle">4</div>
       <h4>Final Inspection</h4>
-      <p>We don't leave until you're completely satisfied. A thorough walkthrough ensures every detail meets our — and your — standards.</p>
+      <p>We walk the whole job with you before we pack up. If something's not right, we sort it then and there - not "next time we're passing".</p>
     </div>
   </div>
 </section>
@@ -1730,55 +1956,96 @@
       <span>Client Reviews</span>
       <div class="section-tag-line"></div>
     </div>
-    <h2>What Our Clients <em>Say</em></h2>
+    <h2>Straight from the people<br>whose homes we've <em>painted.</em></h2>
   </div>
-  <div class="testimonials-grid">
-    <div class="testimonial-card fade-up">
-      <div class="testimonial-stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <blockquote>"Instyle transformed our office fitout. Pristine finish, on time, and the team was professional from start to finish. We won't use anyone else."</blockquote>
-      <div class="testimonial-author">
-        <div class="author-avatar">M</div>
-        <div>
-          <span class="author-name">Michael R.</span>
-          <span class="author-location">Commercial Client · Perth CBD</span>
+  <div class="testimonials-carousel fade-up">
+    <button class="tcar-arrow" onclick="testiNav(-1)" aria-label="Previous review">&#8249;</button>
+    <div class="tcar-viewport">
+      <div class="tcar-track" id="tcar-track">
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <blockquote>"Instyle transformed our office fitout. Pristine finish, on time, and the team was professional from start to finish. We won't use anyone else."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">M</div>
+            <div>
+              <span class="author-name">Michael R.</span>
+              <span class="author-location">Commercial Client · Perth CBD</span>
+            </div>
+          </div>
         </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <blockquote>"Beautiful job 👍"</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">P</div>
+            <div>
+              <span class="author-name">Paul Delavanzo</span>
+              <span class="author-location">Google Review</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <blockquote>"Finally found painters who care as much about the prep as the final coat. Our home exterior looks incredible. Worth every cent for the premium service."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">S</div>
+            <div>
+              <span class="author-name">Sarah & Tom L.</span>
+              <span class="author-location">Residential · Dalkeith</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <blockquote>"Alex and his team were all reliable, responsible, professional with all aspects of the job. Cheers mate."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">G</div>
+            <div>
+              <span class="author-name">George Cornea</span>
+              <span class="author-location">Google Review</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <blockquote>"Contracted Instyle for our warehouse floor coating and wall repaint. Industrial-grade result, zero disruption to operations. Exceptional project management."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">D</div>
+            <div>
+              <span class="author-name">David K.</span>
+              <span class="author-location">Industrial Client · Welshpool</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <blockquote>"Excellent workmanship, professional team, and the final result exceeded expectations. Highly recommend for anyone looking for quality painting services."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">D</div>
+            <div>
+              <span class="author-name">Daniel Talpa</span>
+              <span class="author-location">Google Review</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="testimonial-card fade-up fade-up-delay-1">
-      <div class="testimonial-stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <blockquote>"Finally found painters who care as much about the prep as the final coat. Our home exterior looks incredible. Worth every cent for the premium service."</blockquote>
-      <div class="testimonial-author">
-        <div class="author-avatar">S</div>
-        <div>
-          <span class="author-name">Sarah & Tom L.</span>
-          <span class="author-location">Residential · Dalkeith</span>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial-card fade-up fade-up-delay-2">
-      <div class="testimonial-stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <blockquote>"Contracted Instyle for our warehouse floor coating and wall repaint. Industrial-grade result, zero disruption to operations. Exceptional project management."</blockquote>
-      <div class="testimonial-author">
-        <div class="author-avatar">D</div>
-        <div>
-          <span class="author-name">David K.</span>
-          <span class="author-location">Industrial Client · Welshpool</span>
-        </div>
-      </div>
-    </div>
+    <button class="tcar-arrow" onclick="testiNav(1)" aria-label="Next review">&#8250;</button>
   </div>
+  <div class="tcar-dots" id="tcar-dots"></div>
 </section>
 
 <!-- CTA BAND -->
 <div class="cta-band">
-  <h2>Ready for a Premium Finish?</h2>
-  <p>Let's talk about your project — no obligation, no pressure</p>
+  <h2>Thinking about a repaint?</h2>
+  <p>Let's talk about your project - no obligation, no pressure</p>
   <div class="cta-band-btns">
     <a href="#contact" class="btn-dark">Request a Free Quote</a>
     <a href="tel:+61433420943" class="btn-dark-outline">Call Us Today</a>
@@ -1793,8 +2060,8 @@
         <div class="section-tag-line"></div>
         <span>Get in Touch</span>
       </div>
-      <h2>Start Your<br><em>Project</em> Today</h2>
-      <p>Whether you have plans ready or you're just starting to think about it, we'd love to hear from you. Request a free, no-obligation quote and let's talk about what's possible.</p>
+      <h2>Tell us about<br>your <em>project.</em></h2>
+      <p>Got a job in mind, or just weighing it up? Either way, send through a few details and we'll get back to you with a free, no-obligation quote.</p>
       <div class="contact-details">
         <div class="contact-detail">
           <div class="contact-detail-icon">
@@ -1864,7 +2131,7 @@
           <textarea name="message" placeholder="Describe your project, location, size, and any specific requirements..."></textarea>
         </div>
         <div class="form-group">
-          <label>Attach Photos <span style="color:var(--nardo-mid); font-size:9px; letter-spacing:0.1em;">(Optional — helps us give you a more accurate quote)</span></label>
+          <label>Attach Photos <span style="color:var(--nardo-mid); font-size:9px; letter-spacing:0.1em;">(Optional - helps us give you a more accurate quote)</span></label>
           <input type="file" name="photos" accept="image/*" multiple
             style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 18px; font-family: var(--sans); font-size: 12px; cursor: pointer; width: 100%;">
         </div>
@@ -1969,6 +2236,63 @@
 <div class="orange-bar"></div>
 
 <script>
+  // Gallery overlay open/close
+  function openGallery(e) {
+    if (e) e.preventDefault();
+    const g = document.getElementById('gallery-overlay');
+    g.classList.add('open');
+    g.setAttribute('aria-hidden', 'false');
+    g.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeGallery() {
+    const g = document.getElementById('gallery-overlay');
+    g.classList.remove('open');
+    g.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  // Lightbox (enlarge a single gallery photo)
+  function lightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    lb.classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const lb = document.getElementById('lightbox');
+    if (lb.classList.contains('open')) { closeLightbox(); }
+    else { closeGallery(); }
+  });
+
+  // Reviews carousel
+  let testiIndex = 0;
+  function testiGo(i) {
+    const track = document.getElementById('tcar-track');
+    if (!track) return;
+    const n = track.children.length;
+    testiIndex = ((i % n) + n) % n;
+    track.style.transform = 'translateX(-' + (testiIndex * 100) + '%)';
+    document.querySelectorAll('#tcar-dots .tcar-dot').forEach(function (d, idx) {
+      d.classList.toggle('active', idx === testiIndex);
+    });
+  }
+  function testiNav(dir) { testiGo(testiIndex + dir); }
+  (function initTesti() {
+    const track = document.getElementById('tcar-track');
+    const dots = document.getElementById('tcar-dots');
+    if (!track || !dots) return;
+    for (let i = 0; i < track.children.length; i++) {
+      const b = document.createElement('button');
+      b.className = 'tcar-dot' + (i === 0 ? ' active' : '');
+      b.setAttribute('aria-label', 'Go to review ' + (i + 1));
+      b.addEventListener('click', (function (idx) { return function () { testiGo(idx); }; })(i));
+      dots.appendChild(b);
+    }
+  })();
+
   // Nav scroll effect
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => {
