@@ -1,0 +1,5 @@
+# Serve the homepage at the root URL (the main file is instyle-painting.html, not index.html)
+[[redirects]]
+  from = "/"
+  to = "/instyle-painting.html"
+  status = 200
