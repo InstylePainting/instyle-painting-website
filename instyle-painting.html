@@ -46,6 +46,9 @@
     overflow-x: hidden;
   }
 
+  /* Airy, tracked display type */
+  h2, h3 { letter-spacing: 0.015em; }
+
   /* ── NOISE TEXTURE OVERLAY ── */
   body::before {
     content: '';
@@ -191,9 +194,7 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 20% 50%, rgba(212,101,42,0.10) 0%, transparent 55%),
-      radial-gradient(ellipse at 80% 30%, rgba(201,168,76,0.06) 0%, transparent 50%),
-      linear-gradient(to bottom, rgba(14,14,14,0.68) 0%, rgba(14,14,14,0.55) 50%, rgba(14,14,14,0.82) 100%);
+      linear-gradient(to bottom, rgba(14,14,14,0.74) 0%, rgba(14,14,14,0.74) 50%, rgba(14,14,14,0.84) 100%);
     z-index: 1;
   }
 
@@ -249,10 +250,11 @@
   .hero h1 {
     font-family: var(--serif);
     font-weight: 300;
-    line-height: 0.92;
-    letter-spacing: -0.01em;
+    line-height: 1.15;
+    letter-spacing: 0.012em;
     color: var(--white);
-    margin-bottom: 30px;
+    margin-bottom: 38px;
+    font-size: clamp(30px, 4.2vw, 62px);
   }
   .hero h1 .hero-small {
     font-size: clamp(38px, 4.5vw, 64px);
@@ -260,9 +262,9 @@
   }
   .hero h1 em {
     font-style: italic;
-    color: var(--gold);
-    font-size: clamp(62px, 8vw, 110px);
-    display: block;
+    color: #C6AC72;
+    font-weight: 300;
+    letter-spacing: 0.005em;
   }
   .hero h1 .hero-big {
     font-size: clamp(38px, 4.5vw, 64px);
@@ -309,7 +311,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--orange);
+    background: #B89038;
     transform: translateX(-100%);
     transition: transform 0.4s;
   }
@@ -422,7 +424,7 @@
   /* ══════════════════════════════
      ABOUT / INTRO
   ══════════════════════════════ */
-  .section { padding: 120px 60px; }
+  .section { padding: 150px 60px; }
   #about { background: var(--nardo-bg); }
   .section-inner { max-width: 1300px; margin: 0 auto; }
 
@@ -532,7 +534,7 @@
   ══════════════════════════════ */
   .services-section {
     background: #111010;
-    padding: 120px 60px;
+    padding: 150px 60px;
     position: relative;
     overflow: hidden;
   }
@@ -689,7 +691,7 @@
      WHY US / VALUES
   ══════════════════════════════ */
   .values-section {
-    padding: 120px 60px;
+    padding: 150px 60px;
     position: relative;
   }
   .values-inner {
@@ -729,7 +731,7 @@
     text-decoration: none;
     transition: background 0.3s;
   }
-  .values-cta:hover { background: var(--orange); }
+  .values-cta:hover { background: #B89038; }
 
   .value-items { display: flex; flex-direction: column; gap: 0; }
   .value-item {
@@ -768,7 +770,7 @@
      PROCESS
   ══════════════════════════════ */
   .process-section {
-    padding: 120px 60px;
+    padding: 150px 60px;
     background: #0c0b0a;
     position: relative;
   }
@@ -855,13 +857,13 @@
      TESTIMONIALS
   ══════════════════════════════ */
   .testimonials-section {
-    padding: 120px 60px;
+    padding: 150px 60px;
     background: var(--nardo-dark);
     position: relative;
     overflow: hidden;
   }
   .testimonials-section::before {
-    content: '"';
+    content: none;
     position: absolute;
     top: -40px;
     left: 50%;
@@ -1018,7 +1020,7 @@
     overflow: hidden;
   }
   .cta-band::before {
-    content: 'INSTYLE';
+    content: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1085,7 +1087,7 @@
      CONTACT
   ══════════════════════════════ */
   .contact-section {
-    padding: 120px 60px;
+    padding: 150px 60px;
     background: #0e0e0e;
   }
   .contact-inner {
@@ -1193,7 +1195,7 @@
     font-family: var(--sans);
     margin-top: 8px;
   }
-  .form-submit:hover { background: var(--orange); color: var(--white); }
+  .form-submit:hover { background: #B89038; color: var(--black); }
 
   /* ══════════════════════════════
      FOOTER
@@ -1623,18 +1625,12 @@
     <div class="gallery-grid">
       <figure class="gallery-item" onclick="lightbox('gallery-1.jpg')"><img src="gallery-1.jpg" alt="Dentistry fit-out interior" loading="lazy"><figcaption>Dentistry Fit Out</figcaption></figure>
       <figure class="gallery-item" onclick="lightbox('gallery-2.jpg')"><img src="gallery-2.jpg" alt="Nido Early School daycare exterior" loading="lazy"><figcaption>Nido Early School · Daycare</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-11.jpg')"><img src="gallery-11.jpg" alt="Masking and floor protection before painting" loading="lazy"><figcaption>Prep &amp; Masking</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-16.jpg')"><img src="gallery-16.jpg" alt="Specialist concrete-look feature wall finish" loading="lazy"><figcaption>Specialist Finish · Concrete</figcaption></figure>
       <figure class="gallery-item" onclick="lightbox('gallery-4.jpg')"><img src="gallery-4.jpg" alt="Waiting room with specialty finishes" loading="lazy"><figcaption>Waiting Room · Specialty Finishes</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-5.jpg')"><img src="gallery-5.jpg" alt="Commercial repaint at height" loading="lazy"><figcaption>Working at Height</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-6.jpg')"><img src="gallery-6.jpg" alt="Architectural timber feature" loading="lazy"><figcaption>Architectural Detail</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-3.jpg')"><img src="gallery-3.jpg" alt="Commercial interior, bold feature wall" loading="lazy"><figcaption>Commercial Interior</figcaption></figure>
+      <figure class="gallery-item" onclick="lightbox('gallery-17.jpg')"><img src="gallery-17.jpg" alt="Infrastructure coating on a pedestrian bridge" loading="lazy"><figcaption>Infrastructure</figcaption></figure>
       <figure class="gallery-item" onclick="lightbox('gallery-12.jpg')"><img src="gallery-12.jpg" alt="Heritage commercial building repaint" loading="lazy"><figcaption>Heritage Commercial</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-14.jpg')"><img src="gallery-14.jpg" alt="Surface preparation and sanding" loading="lazy"><figcaption>Surface Prep</figcaption></figure>
       <figure class="gallery-item" onclick="lightbox('gallery-7.jpg')"><img src="gallery-7.jpg" alt="Reception lounge with specialty finishes" loading="lazy"><figcaption>Reception Lounge</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-13.jpg')"><img src="gallery-13.jpg" alt="Industrial warehouse coating" loading="lazy"><figcaption>Industrial Coatings</figcaption></figure>
       <figure class="gallery-item" onclick="lightbox('gallery-15.jpg')"><img src="gallery-15.jpg" alt="Heritage timber staircase restoration" loading="lazy"><figcaption>Heritage Restoration</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-9.jpg')"><img src="gallery-9.jpg" alt="Painter applying a feature wall" loading="lazy"><figcaption>On the Tools</figcaption></figure>
-      <figure class="gallery-item" onclick="lightbox('gallery-8.jpg')"><img src="gallery-8.jpg" alt="St Jerome's educational project fit-out" loading="lazy"><figcaption>Educational Project</figcaption></figure>
       <figure class="gallery-item" onclick="lightbox('gallery-10.jpg')"><img src="gallery-10.jpg" alt="Instyle Painting branded fleet" loading="lazy"><figcaption>Our Fleet</figcaption></figure>
     </div>
   </div>
@@ -1649,10 +1645,9 @@
     <source src="hero.mp4" type="video/mp4">
   </video>
   <div class="hero-bg"></div>
-  <div class="hero-stroke"></div>
 
   <div class="hero-content">
-    <h1><span class="hero-small">The finish your property</span><em>deserves.</em></h1>
+    <h1>The finish your property <em>deserves</em></h1>
     <p class="hero-sub">Residential · Commercial · Industrial<br>Trusted across Perth for over a decade</p>
     <div class="hero-btns">
       <a href="#contact" class="btn-primary"><span>Request a Quote</span></a>
@@ -1869,7 +1864,7 @@
 </section>
 
 <!-- MEET THE OWNER -->
-<section style="padding: 120px 60px; background: var(--nardo-bg); position: relative; overflow: hidden;" id="meet-alex">
+<section style="padding: 150px 60px; background: var(--nardo-bg); position: relative; overflow: hidden;" id="meet-alex">
   <div style="max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;">
 
     <!-- Photo -->
@@ -2166,7 +2161,7 @@
           <span style="display: block; font-size: 10px; color: var(--nardo-mid); margin-top: 3px; letter-spacing: 0.1em;">Open in browser</span>
         </div>
       </a>
-      <a href="capability-statement.pdf" target="_blank" download="Instyle_Painting_Capability_Statement.pdf" style="display: flex; align-items: center; gap: 16px; background: var(--gold); padding: 22px 38px; text-decoration: none; flex-shrink: 0; transition: background 0.3s;" onmouseover="this.style.background='#D4652A'" onmouseout="this.style.background='#C9A84C'">
+      <a href="capability-statement.pdf" target="_blank" download="Instyle_Painting_Capability_Statement.pdf" style="display: flex; align-items: center; gap: 16px; background: var(--gold); padding: 22px 38px; text-decoration: none; flex-shrink: 0; transition: background 0.3s;" onmouseover="this.style.background='#B89038'" onmouseout="this.style.background='#C9A84C'">
         <svg width="22" height="22" fill="none" stroke="#0E0E0E" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
         <div>
           <span style="display: block; font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--black);">Download PDF</span>
