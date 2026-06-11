@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://instyle-painting.com.au/sitemap.xml
