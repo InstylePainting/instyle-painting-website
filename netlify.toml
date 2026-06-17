@@ -3,3 +3,8 @@
   from = "/"
   to = "/instyle-painting.html"
   status = 200
+
+# Serverless functions (weekly business summary)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

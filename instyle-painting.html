@@ -2488,6 +2488,14 @@
   <input type="text" name="timeline">
 </form>
 
+<!-- Hidden form: receives the weekly business summary from the Netlify
+     scheduled function; Netlify emails it on as a form notification. -->
+<form name="weekly-summary" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="weekly-summary">
+  <input name="bot-field">
+  <textarea name="summary"></textarea>
+</form>
+
 <style>
   :root { --chat-bg: #141412; }
 
