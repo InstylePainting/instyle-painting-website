@@ -2634,7 +2634,7 @@
   <div class="qa-body" id="qa-body"></div>
   <div class="qa-quick" id="qa-quick" style="display:none;"></div>
   <div class="qa-input-row">
-    <input type="text" id="qa-input" placeholder="Type your answer…" autocomplete="off" aria-label="Your message">
+    <input type="text" id="qa-input" placeholder="Ask a question or get a quote…" autocomplete="off" aria-label="Your message">
     <button class="qa-send" id="qa-send" aria-label="Send">
       <svg viewBox="0 0 24 24" fill="none" stroke="#0E0E0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="#0E0E0E" stroke="none"/></svg>
     </button>
@@ -2682,12 +2682,13 @@
   }
   function hideTyping() { const t = document.getElementById('qa-typing'); if (t) t.remove(); }
 
-  function renderQuick(options) {
+  function renderQuick(options, onPick) {
+    const handler = onPick || handleAnswer;
     quickBox.innerHTML = '';
     options.forEach(opt => {
       const b = document.createElement('button');
       b.textContent = opt;
-      b.addEventListener('click', () => { handleAnswer(opt); });
+      b.addEventListener('click', () => { handler(opt); });
       quickBox.appendChild(b);
     });
     quickBox.style.display = 'flex';
@@ -2753,11 +2754,132 @@
     if (window.gtag) { try { gtag('event', 'generate_lead', { method: 'quote_assistant' }); } catch (e) {} }
   }
 
+  // ---- entry + question answering (instant FAQ, with Claude fallback) ----
+  let mode = null;            // 'quote' | 'qa'
+  const qaHistory = [];
+
+  const FAQ = [
+    { k: ['quote','quotes','cost','costs','price','pricing','how much','estimate','expensive','charge','rates','ballpark'],
+      a: "Quotes are completely free and no-obligation! 🙂 The price depends on the job, so the easiest thing is a quick quote — tap “Get a free quote” below, or tell me your job type, suburb and rough size and Alex will sort you a price." },
+    { k: ['licen','insur','qualif','registered','certified','accredit','legit'],
+      a: "Yes — Instyle Painting is fully licensed (Painting Registration LN 101102) and fully insured, so you're in safe hands." },
+    { k: ['how long have','how long has','experience','years','established','how many jobs','reviews','reputation','trusted','reliable'],
+      a: "We've got 12+ years' experience and over 3,000 jobs completed across Perth. 🎨" },
+    { k: ['what service','what do you do','what do you offer','what kind of','what type of','types of paint','services you','do you offer'],
+      a: "We do residential, commercial and industrial painting, plus heritage restoration and specialty/texture finishes — interior and exterior. What's your project?" },
+    { k: ['area','located','location','suburb','perth','western australia','where are you','where do you','do you cover','do you come','do you service','travel'],
+      a: "We cover Perth and right across Western Australia. Whereabouts is your job?" },
+    { k: ['phone','call you','email','contact','your number','whatsapp','reach you','get in touch','mobile'],
+      a: "You can reach Alex on 0433 420 943 (phone or WhatsApp), or email contact@instyle-painting.com.au — happy to help!" }
+  ];
+
+  function matchFAQ(text) {
+    const t = (text || '').toLowerCase();
+    for (const item of FAQ) {
+      if (item.k.some(k => t.indexOf(k) !== -1)) return item.a;
+    }
+    return null;
+  }
+
+  function entryPick(opt) {
+    addMsg(opt, 'user');
+    clearQuick();
+    if (/quote/i.test(opt)) beginQuote();
+    else beginQA(true);
+  }
+
+  function beginQuote() {
+    mode = 'quote';
+    clearQuick();
+    input.disabled = true; sendBtn.disabled = true;
+    current = 0;
+    askStep(0);
+  }
+
+  function beginQA(announce) {
+    mode = 'qa';
+    input.placeholder = 'Type your question…';
+    if (announce) {
+      clearQuick();
+      input.disabled = true; sendBtn.disabled = true;
+      showTyping();
+      setTimeout(function () {
+        hideTyping();
+        addMsg("Sure — ask me anything about our painting services and I'll do my best to help! 😊", 'bot');
+        renderQuick(['Do you do free quotes?', 'What areas do you cover?', 'Are you licensed & insured?'], handleQuestion);
+        input.disabled = false; sendBtn.disabled = false; input.focus();
+      }, 500);
+    } else {
+      input.disabled = false; sendBtn.disabled = false;
+    }
+  }
+
+  function afterAnswer() {
+    input.disabled = false; sendBtn.disabled = false;
+    renderQuick(['📝 Get a free quote'], entryPick);
+    input.focus();
+  }
+
+  function handleQuestion(value) {
+    value = (value || '').trim();
+    if (!value) return;
+    mode = 'qa';
+    addMsg(value, 'user');
+    qaHistory.push({ role: 'user', content: value });
+    clearQuick();
+    input.value = '';
+    input.disabled = true; sendBtn.disabled = true;
+    showTyping();
+
+    const faq = matchFAQ(value);
+    if (faq) {
+      setTimeout(function () {
+        hideTyping();
+        addMsg(faq, 'bot');
+        qaHistory.push({ role: 'assistant', content: faq });
+        afterAnswer();
+      }, 500);
+      return;
+    }
+
+    fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: qaHistory.slice(-12) })
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        const reply = (data && data.reply) ? data.reply
+          : "I'll have Alex get back to you on that — you can also call or WhatsApp him on 0433 420 943.";
+        hideTyping();
+        addMsg(reply, 'bot');
+        qaHistory.push({ role: 'assistant', content: reply });
+        afterAnswer();
+      })
+      .catch(function () {
+        hideTyping();
+        addMsg("Sorry, I had trouble there — please call or WhatsApp Alex on 0433 420 943, or tap “Get a free quote”.", 'bot');
+        afterAnswer();
+      });
+  }
+
+  function routeInput(value) {
+    if (finished) return;
+    value = (value || '').trim();
+    if (!value) return;
+    if (mode === 'quote') handleAnswer(value);
+    else handleQuestion(value);
+  }
+
   function start() {
     if (started) return;
     started = true;
-    current = 0;
-    askStep(0);
+    showTyping();
+    setTimeout(function () {
+      hideTyping();
+      addMsg("Hi there! 👋 Welcome to Instyle Painting. How can I help today?", 'bot');
+      renderQuick(['📝 Get a free quote', '💬 Ask a question'], entryPick);
+    }, 500);
   }
 
   function openPanel() {
@@ -2777,10 +2899,10 @@
   });
 
   sendBtn.addEventListener('click', function () {
-    if (!input.disabled) handleAnswer(input.value);
+    if (!input.disabled) routeInput(input.value);
   });
   input.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && !input.disabled) { e.preventDefault(); handleAnswer(input.value); }
+    if (e.key === 'Enter' && !input.disabled) { e.preventDefault(); routeInput(input.value); }
   });
 })();
 </script>
