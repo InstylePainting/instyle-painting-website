@@ -2406,5 +2406,310 @@
     });
   }
 </script>
+
+<!-- ============================================================= -->
+<!-- AI Quote Assistant — gold chat widget (bottom-right)          -->
+<!-- ============================================================= -->
+
+<!-- Hidden form so Netlify detects & registers the fields at deploy -->
+<form name="quote-assistant" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="quote-assistant">
+  <input name="bot-field">
+  <input type="text" name="name">
+  <input type="tel" name="phone">
+  <input type="text" name="job-type">
+  <input type="text" name="location">
+  <input type="text" name="scope">
+  <input type="text" name="timeline">
+</form>
+
+<style>
+  :root { --chat-bg: #141412; }
+
+  .qa-launcher {
+    position: fixed; bottom: 26px; right: 26px; z-index: 9998;
+    width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 55%, #B89038 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45), 0 0 0 1px rgba(201,168,76,0.25);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s;
+  }
+  .qa-launcher:hover { transform: scale(1.07); box-shadow: 0 14px 40px rgba(201,168,76,0.35); }
+  .qa-launcher svg { width: 28px; height: 28px; }
+  .qa-launcher .qa-ic-close { display: none; }
+  .qa-launcher.qa-open .qa-ic-chat { display: none; }
+  .qa-launcher.qa-open .qa-ic-close { display: block; }
+  .qa-launcher::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(201,168,76,0.45); animation: qa-pulse 2.6s infinite;
+  }
+  .qa-launcher.qa-open::after { animation: none; }
+  @keyframes qa-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.45); }
+    70% { box-shadow: 0 0 0 16px rgba(201,168,76,0); }
+    100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  }
+
+  .qa-panel {
+    position: fixed; bottom: 104px; right: 26px; z-index: 9999;
+    width: 372px; max-width: calc(100vw - 32px);
+    height: 560px; max-height: calc(100vh - 140px);
+    background: var(--chat-bg); border: 1px solid rgba(201,168,76,0.22);
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.6);
+    display: flex; flex-direction: column;
+    opacity: 0; visibility: hidden; transform: translateY(18px) scale(0.98);
+    transition: opacity 0.32s ease, transform 0.32s cubic-bezier(.4,0,.2,1), visibility 0.32s;
+    font-family: var(--sans);
+  }
+  .qa-panel.qa-open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+  .qa-header {
+    padding: 18px 20px; display: flex; align-items: center; gap: 13px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(212,101,42,0.10));
+    border-bottom: 1px solid rgba(201,168,76,0.18);
+  }
+  .qa-header .qa-avatar {
+    width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold) 60%, #B89038);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 600; font-size: 19px; color: var(--black);
+  }
+  .qa-header .qa-h-title { font-family: var(--serif); font-size: 16px; color: var(--white); line-height: 1.2; }
+  .qa-header .qa-h-sub {
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); margin-top: 4px; display: flex; align-items: center; gap: 6px;
+  }
+  .qa-header .qa-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ad07a; box-shadow: 0 0 6px #4ad07a; }
+
+  .qa-body {
+    flex: 1; overflow-y: auto; padding: 20px 18px 8px;
+    display: flex; flex-direction: column; gap: 12px;
+    scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.4) transparent;
+  }
+  .qa-body::-webkit-scrollbar { width: 6px; }
+  .qa-body::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+  .qa-msg { max-width: 82%; padding: 11px 15px; font-size: 13.5px; line-height: 1.6; border-radius: 14px; animation: qa-rise 0.3s ease; }
+  @keyframes qa-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .qa-msg.bot {
+    align-self: flex-start; background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.07); color: var(--white);
+    border-bottom-left-radius: 4px;
+  }
+  .qa-msg.user {
+    align-self: flex-end; color: var(--black); font-weight: 500;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border-bottom-right-radius: 4px;
+  }
+
+  .qa-typing { align-self: flex-start; display: flex; gap: 4px; padding: 14px 16px; background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; border-bottom-left-radius: 4px; }
+  .qa-typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); opacity: 0.5; animation: qa-blink 1.3s infinite; }
+  .qa-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .qa-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes qa-blink { 0%,60%,100% { opacity: 0.35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+  .qa-quick { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 18px 12px; }
+  .qa-quick button {
+    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light); font-family: var(--sans); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.02em; padding: 9px 15px; border-radius: 999px; cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+  .qa-quick button:hover { background: var(--gold); color: var(--black); transform: translateY(-1px); }
+
+  .qa-input-row {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+    border-top: 1px solid rgba(255,255,255,0.07); background: rgba(0,0,0,0.25);
+  }
+  .qa-input-row input {
+    flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px; padding: 12px 16px; color: var(--white);
+    font-family: var(--sans); font-size: 13px; outline: none; transition: border-color 0.2s;
+  }
+  .qa-input-row input::placeholder { color: var(--nardo-mid); }
+  .qa-input-row input:focus { border-color: var(--gold); }
+  .qa-input-row input:disabled { opacity: 0.4; }
+  .qa-send {
+    width: 42px; height: 42px; flex-shrink: 0; border: none; border-radius: 50%; cursor: pointer;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: var(--black);
+    display: flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.2s;
+  }
+  .qa-send:hover { transform: scale(1.08); }
+  .qa-send:disabled { opacity: 0.4; cursor: default; transform: none; }
+  .qa-send svg { width: 18px; height: 18px; }
+
+  @media (max-width: 480px) {
+    .qa-panel { bottom: 92px; right: 12px; height: calc(100vh - 120px); }
+    .qa-launcher { bottom: 18px; right: 18px; width: 58px; height: 58px; }
+  }
+</style>
+
+<button class="qa-launcher" id="qa-launcher" aria-label="Open quote assistant chat" aria-expanded="false">
+  <svg class="qa-ic-chat" viewBox="0 0 24 24" fill="none" stroke="#0E0E0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <svg class="qa-ic-close" viewBox="0 0 24 24" fill="none" stroke="#0E0E0E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
+<div class="qa-panel" id="qa-panel" role="dialog" aria-label="Instyle Painting quote assistant">
+  <div class="qa-header">
+    <div class="qa-avatar">In</div>
+    <div>
+      <div class="qa-h-title">Instyle Quote Assistant</div>
+      <div class="qa-h-sub"><span class="qa-dot"></span>Typically replies in minutes</div>
+    </div>
+  </div>
+  <div class="qa-body" id="qa-body"></div>
+  <div class="qa-quick" id="qa-quick" style="display:none;"></div>
+  <div class="qa-input-row">
+    <input type="text" id="qa-input" placeholder="Type your answer…" autocomplete="off" aria-label="Your message">
+    <button class="qa-send" id="qa-send" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0E0E0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="#0E0E0E" stroke="none"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const launcher = document.getElementById('qa-launcher');
+  const panel    = document.getElementById('qa-panel');
+  const body     = document.getElementById('qa-body');
+  const quickBox = document.getElementById('qa-quick');
+  const input    = document.getElementById('qa-input');
+  const sendBtn  = document.getElementById('qa-send');
+
+  const steps = [
+    { key: 'name',     bot: () => "Hi there! 👋 I'm the Instyle Painting quote assistant. I'll grab a few quick details so our team can put together a tailored quote for you. First up — what's your name?" },
+    { key: 'phone',    bot: (a) => `Lovely to meet you, ${a.name.split(' ')[0]}! What's the best phone number to reach you on?` },
+    { key: 'job-type', bot: () => "Great. What type of job is it?", quick: ['Residential', 'Commercial', 'Industrial', 'Specialty Finish', 'Not sure yet'] },
+    { key: 'location', bot: () => "Which suburb is the job located in?" },
+    { key: 'scope',    bot: () => "Roughly what's the size or scope of the work? (e.g. 3-bedroom interior, full exterior repaint, 200m² warehouse…)" },
+    { key: 'timeline', bot: () => "Last one — what's your timeline?", quick: ['ASAP', 'Within 2 weeks', 'Within a month', 'Just planning ahead'] }
+  ];
+
+  const answers = {};
+  let current = -1;
+  let started = false;
+  let finished = false;
+
+  function scrollDown() { body.scrollTop = body.scrollHeight; }
+
+  function addMsg(text, who) {
+    const el = document.createElement('div');
+    el.className = 'qa-msg ' + who;
+    el.textContent = text;
+    body.appendChild(el);
+    scrollDown();
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'qa-typing'; t.id = 'qa-typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(t); scrollDown();
+  }
+  function hideTyping() { const t = document.getElementById('qa-typing'); if (t) t.remove(); }
+
+  function renderQuick(options) {
+    quickBox.innerHTML = '';
+    options.forEach(opt => {
+      const b = document.createElement('button');
+      b.textContent = opt;
+      b.addEventListener('click', () => { handleAnswer(opt); });
+      quickBox.appendChild(b);
+    });
+    quickBox.style.display = 'flex';
+  }
+  function clearQuick() { quickBox.style.display = 'none'; quickBox.innerHTML = ''; }
+
+  function askStep(i) {
+    const step = steps[i];
+    showTyping();
+    setTimeout(() => {
+      hideTyping();
+      addMsg(step.bot(answers), 'bot');
+      if (step.quick) { renderQuick(step.quick); input.disabled = true; sendBtn.disabled = true; }
+      else { input.disabled = false; sendBtn.disabled = false; input.focus(); }
+    }, 650);
+  }
+
+  function handleAnswer(value) {
+    value = (value || '').trim();
+    if (!value || finished) return;
+    addMsg(value, 'user');
+    answers[steps[current].key] = value;
+    clearQuick();
+    input.value = '';
+    current++;
+    if (current < steps.length) {
+      input.disabled = true; sendBtn.disabled = true;
+      askStep(current);
+    } else {
+      submit();
+    }
+  }
+
+  function submit() {
+    finished = true;
+    input.disabled = true; sendBtn.disabled = true; clearQuick();
+    showTyping();
+
+    const payload = new URLSearchParams();
+    payload.append('form-name', 'quote-assistant');
+    payload.append('bot-field', '');
+    payload.append('name', answers['name'] || '');
+    payload.append('phone', answers['phone'] || '');
+    payload.append('job-type', answers['job-type'] || '');
+    payload.append('location', answers['location'] || '');
+    payload.append('scope', answers['scope'] || '');
+    payload.append('timeline', answers['timeline'] || '');
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: payload.toString()
+    }).catch(function () { /* fail silently; details below still shown */ })
+      .finally(function () {
+        setTimeout(function () {
+          hideTyping();
+          const first = (answers['name'] || '').split(' ')[0];
+          addMsg(`Thank you${first ? ', ' + first : ''}! 🎨 We've got everything we need. Our team will review your details and be in touch shortly with a tailored quote. For anything urgent, call or WhatsApp Alex on 0433 420 943.`, 'bot');
+          input.placeholder = 'Thanks — we’ll be in touch!';
+        }, 700);
+      });
+
+    if (window.gtag) { try { gtag('event', 'generate_lead', { method: 'quote_assistant' }); } catch (e) {} }
+  }
+
+  function start() {
+    if (started) return;
+    started = true;
+    current = 0;
+    askStep(0);
+  }
+
+  function openPanel() {
+    panel.classList.add('qa-open');
+    launcher.classList.add('qa-open');
+    launcher.setAttribute('aria-expanded', 'true');
+    start();
+  }
+  function closePanel() {
+    panel.classList.remove('qa-open');
+    launcher.classList.remove('qa-open');
+    launcher.setAttribute('aria-expanded', 'false');
+  }
+
+  launcher.addEventListener('click', function () {
+    panel.classList.contains('qa-open') ? closePanel() : openPanel();
+  });
+
+  sendBtn.addEventListener('click', function () {
+    if (!input.disabled) handleAnswer(input.value);
+  });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !input.disabled) { e.preventDefault(); handleAnswer(input.value); }
+  });
+})();
+</script>
 </body>
 </html>
