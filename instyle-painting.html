@@ -2462,6 +2462,7 @@
         });
         form.querySelectorAll('input, textarea, select, button').forEach(el => el.style.display = 'none');
         document.getElementById('form-success').style.display = 'block';
+        if (window.gtag) { try { gtag('event', 'generate_lead', { method: 'contact_form' }); } catch (e) {} }
       } catch (err) {
         submitBtn.textContent = 'Send Enquiry →';
         submitBtn.disabled = false;
