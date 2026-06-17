@@ -2496,6 +2496,15 @@
   <textarea name="summary"></textarea>
 </form>
 
+<!-- Hidden form: the chat transcript, emailed when a visitor finishes or closes the chat -->
+<form name="chat-transcript" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="chat-transcript">
+  <input name="bot-field">
+  <input type="text" name="name">
+  <input type="tel" name="phone">
+  <textarea name="transcript"></textarea>
+</form>
+
 <style>
   :root { --chat-bg: #141412; }
 
@@ -2710,6 +2719,7 @@
     value = (value || '').trim();
     if (!value || finished) return;
     addMsg(value, 'user');
+    userMsgCount++;
     answers[steps[current].key] = value;
     clearQuick();
     input.value = '';
@@ -2757,6 +2767,8 @@
   // ---- entry + question answering (instant FAQ, with Claude fallback) ----
   let mode = null;            // 'quote' | 'qa'
   const qaHistory = [];
+  let userMsgCount = 0;       // visitor messages (questions or quote answers)
+  let sentAtCount = 0;        // userMsgCount when the transcript was last emailed
 
   const FAQ = [
     { k: ['thank','cheers','appreciate'],
@@ -2911,6 +2923,7 @@
     if (!value) return;
     mode = 'qa';
     addMsg(value, 'user');
+    userMsgCount++;
     qaHistory.push({ role: 'user', content: value });
     clearQuick();
     input.value = '';
@@ -2949,6 +2962,37 @@
       });
   }
 
+  function buildTranscript() {
+    const lines = [];
+    body.querySelectorAll('.qa-msg').forEach(function (m) {
+      const who = m.className.indexOf('user') !== -1 ? 'Visitor' : 'Assistant';
+      lines.push(who + ': ' + m.textContent.trim());
+    });
+    return lines.join('\n');
+  }
+
+  // Email Alex the conversation when the visitor finishes or leaves — even with
+  // no name — so he can see what people are asking about. Completed quotes are
+  // skipped here (they already arrive via the quote form). Only sends when there
+  // are new visitor messages since the last send, so no empty/duplicate emails.
+  function maybeSendTranscript() {
+    if (finished || userMsgCount <= sentAtCount) return;
+    sentAtCount = userMsgCount;
+    const params = new URLSearchParams();
+    params.append('form-name', 'chat-transcript');
+    params.append('bot-field', '');
+    params.append('name', answers.name || '');
+    params.append('phone', answers.phone || '');
+    params.append('transcript', buildTranscript());
+    try {
+      const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
+      if (navigator.sendBeacon && navigator.sendBeacon('/', blob)) return;
+    } catch (e) {}
+    try {
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString(), keepalive: true });
+    } catch (e) {}
+  }
+
   function routeInput(value) {
     if (finished) return;
     value = (value || '').trim();
@@ -2975,6 +3019,7 @@
     start();
   }
   function closePanel() {
+    maybeSendTranscript();
     panel.classList.remove('qa-open');
     launcher.classList.remove('qa-open');
     launcher.setAttribute('aria-expanded', 'false');
@@ -2990,6 +3035,10 @@
   input.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' && !input.disabled) { e.preventDefault(); routeInput(input.value); }
   });
+
+  // Visitor leaving the page (closing the tab / navigating away)
+  window.addEventListener('pagehide', maybeSendTranscript);
+  window.addEventListener('beforeunload', maybeSendTranscript);
 })();
 </script>
 </body>
