@@ -240,6 +240,42 @@
   }
   .nav-cta:hover { background: var(--gold-light); }
 
+  /* Nav dropdown menu (replaces the quote button; primary nav on mobile) */
+  .nav-menu-wrap { position: relative; margin-left: auto; display: none; }
+  .nav-toggle {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-family: var(--sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; padding: 11px 18px;
+    cursor: pointer; transition: background 0.3s, color 0.3s;
+  }
+  .nav-toggle:hover { background: var(--gold); color: var(--black); }
+  .nav-toggle:hover .nav-toggle-bars span { background: var(--black); }
+  .nav-toggle-bars { display: inline-flex; flex-direction: column; gap: 3px; width: 16px; }
+  .nav-toggle-bars span { display: block; height: 2px; width: 100%; background: var(--gold); transition: transform 0.3s, opacity 0.3s, background 0.3s; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+  .nav-dropdown {
+    position: absolute; top: calc(100% + 16px); right: 0; min-width: 230px;
+    list-style: none; padding: 8px;
+    background: rgba(14,14,14,0.97); backdrop-filter: blur(14px);
+    border: 1px solid rgba(201,168,76,0.22); box-shadow: 0 20px 55px rgba(0,0,0,0.55);
+    opacity: 0; visibility: hidden; transform: translateY(-8px);
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(.4,0,.2,1), visibility 0.28s;
+  }
+  .nav-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown li + li { border-top: 1px solid rgba(255,255,255,0.05); }
+  .nav-dropdown a {
+    display: block; padding: 14px 18px;
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(248,246,241,0.82); text-decoration: none;
+    transition: background 0.2s, color 0.2s, padding-left 0.2s;
+  }
+  .nav-dropdown a:hover { background: rgba(201,168,76,0.1); color: var(--gold); padding-left: 24px; }
+
   /* ══════════════════════════════
      HERO
   ══════════════════════════════ */
@@ -1421,6 +1457,7 @@
     .footer-top { grid-template-columns: 1fr 1fr; }
     nav { padding: 24px 30px; }
     .nav-links { display: none; }
+    .nav-menu-wrap { display: block; }
     .section { padding: 80px 30px; }
   }
   @media (max-width: 640px) {
@@ -1684,8 +1721,35 @@
     <li><a href="#testimonials">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Get a Quote</a>
+  <div class="nav-menu-wrap">
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-dropdown">
+      <span class="nav-toggle-bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <ul class="nav-dropdown" id="nav-dropdown">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#" onclick="openGallery(event)">Gallery</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
 </nav>
+
+<script>
+(function () {
+  const toggle = document.getElementById('nav-toggle');
+  const dropdown = document.getElementById('nav-dropdown');
+  if (!toggle || !dropdown) return;
+  function close() { dropdown.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Open menu'); }
+  function open()  { dropdown.classList.add('open');    toggle.setAttribute('aria-expanded', 'true');  toggle.setAttribute('aria-label', 'Close menu'); }
+  toggle.addEventListener('click', function (e) { e.stopPropagation(); dropdown.classList.contains('open') ? close() : open(); });
+  dropdown.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+  document.addEventListener('click', function (e) { if (dropdown.classList.contains('open') && !dropdown.contains(e.target) && !toggle.contains(e.target)) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
 
 <!-- GALLERY OVERLAY (opens from the Gallery nav link) -->
 <div class="gallery-overlay" id="gallery-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Project gallery">
