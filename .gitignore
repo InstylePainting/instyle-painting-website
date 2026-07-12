@@ -3,3 +3,7 @@ desktop.ini
 .DS_Store
 _compress_pdf.py
 .claude/
+
+# High-res logo master + backups — keep local, never deploy publicly
+logo.png
+logo-trimmed-original-backup.png

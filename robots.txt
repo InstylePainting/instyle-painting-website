@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Keep brand logo files out of Google Images / image search
+Disallow: /logo.png
+Disallow: /logo-trimmed.png
+
 Sitemap: https://instyle-painting.com.au/sitemap.xml
